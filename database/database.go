@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"strconv"
 
 	"echo.osaxon/config"
 	"gorm.io/driver/postgres"
@@ -10,18 +9,10 @@ import (
 )
 
 func Connect() (*gorm.DB, error) {
-	var err error
-
-	p := config.Config("DB_PORT")
-	port, err := strconv.Atoi(p)
-
-	if err != nil {
-		panic("Invalid port number")
-	}
 
 	dsn := fmt.Sprintf(
-		"host=localhost port=%d user=%s password=%s dbname=%s sslmode=disable",
-		port,
+		"host=db port=%d user=%s password=%s dbname=%s sslmode=disable",
+		5432,
 		config.Config("DB_USER"),
 		config.Config("DB_PASSWORD"),
 		config.Config("DB_NAME"),

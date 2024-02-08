@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"echo.osaxon/database"
 	"echo.osaxon/handler"
@@ -20,8 +21,10 @@ func main() {
 		app.Logger.Fatal(err)
 	}
 
+	port := os.Getenv("PORT")
+
 	h := handler.NewHandler()
 	h.SetupRoutes(app.Group("/v1"))
 
-	app.Logger.Fatal(app.Start(":1323"))
+	app.Logger.Fatal(app.Start("0.0.0.0:" + port))
 }
