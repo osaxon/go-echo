@@ -6,4 +6,5 @@ import (
 
 func (h *Handler) SetupRoutes(v1 *echo.Group) {
 	v1.GET("/hello", h.HelloWorld)
+	v1.GET("/users", h.GetUsers)
 }

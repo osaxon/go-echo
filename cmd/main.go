@@ -6,6 +6,7 @@ import (
 
 	"echo.osaxon/database"
 	"echo.osaxon/handler"
+	"echo.osaxon/store"
 	"github.com/labstack/echo/v4"
 )
 
@@ -15,7 +16,8 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	_, err := database.Connect()
+	db, err := database.New()
+	database.Migrate(db)
 
 	if err != nil {
 		app.Logger.Fatal(err)
@@ -23,7 +25,10 @@ func main() {
 
 	port := os.Getenv("PORT")
 
-	h := handler.NewHandler()
+	us := store.NewUserStore(db)
+
+	h := handler.NewHandler(us)
+
 	h.SetupRoutes(app.Group("/v1"))
 
 	app.Logger.Fatal(app.Start("0.0.0.0:" + port))
