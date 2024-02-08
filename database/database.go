@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 
 	"echo.osaxon/config"
 	"gorm.io/driver/postgres"
@@ -10,13 +11,18 @@ import (
 
 func Connect() (*gorm.DB, error) {
 
-	dsn := fmt.Sprintf(
-		"host=db port=%d user=%s password=%s dbname=%s sslmode=disable",
-		5432,
-		config.Config("DB_USER"),
-		config.Config("DB_PASSWORD"),
-		config.Config("DB_NAME"),
-	)
+	// dsn := fmt.Sprintf(
+	// 	"host=db port=%d user=%s password=%s dbname=%s sslmode=disable",
+	// 	5432,
+	// 	config.Config("DB_USER"),
+	// 	config.Config("DB_PASSWORD"),
+	// 	config.Config("DB_NAME"),
+	// )
+	dsn := config.Config("DATABASE_URL")
+
+	if dsn == "" {
+		log.Fatal("DATABASE_URL not set")
+	}
 
 	println(dsn)
 
